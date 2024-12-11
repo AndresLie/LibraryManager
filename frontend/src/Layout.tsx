@@ -6,7 +6,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <>
       <BrowserRouter>
         <Navbar />
-        <main>{children}</main>
+        <main className="mx-[6vw]">{children}</main>
       </BrowserRouter>
     </>
   );

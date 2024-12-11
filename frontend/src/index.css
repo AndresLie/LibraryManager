@@ -132,3 +132,8 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+button svg {
+  width: 2rem !important;
+  height: 2rem !important;
+}
