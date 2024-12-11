@@ -4,28 +4,31 @@ import { NavLink } from "react-router-dom";
 
 export function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-gray-900 text-white sticky top-0 z-50 w-[100%]">
+    <nav className="flex items-center justify-between px-8 py-8 bg-gray-900 text-white sticky top-0 z-50 w-full">
       <div className="text-2xl font-bold">Library Manager</div>
 
       {/* Desktop Navigation */}
-      <div className="hidden md:flex space-x-4">
-        <NavLink to="/">
-          <Button
-            variant="link"
-            className="text-white hover:text-gray-300 hover:no-underline"
-          >
-            View Books
-          </Button>
+      <div className="hidden md:flex space-x-4 overflow-hidden">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `text-white hover:text-gray-300 hover:no-underline px-3 py-2 rounded-lg border-2 ${
+              isActive ? "text-white border-blue-600   " : ""
+            }`
+          }
+        >
+          View Available Books
         </NavLink>
-        <NavLink to="/add">
-          <Button
-            variant="link"
-            className="text-white hover:text-gray-300 hover:no-underline"
-          >
-            Add Books
-          </Button>
+        <NavLink
+          to="/add"
+          className={({ isActive }) =>
+            `text-white hover:text-gray-300 hover:no-underline px-3 py-2 rounded-lg border-2  ${
+              isActive ? "text-white border-blue-600 border-2  " : ""
+            }`
+          }
+        >
+          Add Books
         </NavLink>
-        {/* <Input type="search" placeholder="Search" className="text-black mx-4" /> */}
       </div>
 
       {/* Mobile Menu */}
@@ -37,19 +40,26 @@ export function Navbar() {
         </SheetTrigger>
         <SheetContent side="left" className="p-4">
           <div className="flex flex-col space-y-4">
-            <Button
-              variant="link"
-              className="text-white hover:text-gray-300 hover:no-underline"
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 hover:no-underline px-3 py-2 rounded-lg border-2 ${
+                  isActive ? "text-white border-blue-600 border-2  " : ""
+                }`
+              }
             >
-              View Books
-            </Button>
-            <Button
-              variant="link"
-              className="text-white hover:text-gray-300 hover:no-underline"
+              View Available Books
+            </NavLink>
+            <NavLink
+              to="/add"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 hover:no-underline px-3 py-2 rounded-lg border-2 ${
+                  isActive ? "text-white border-blue-600 border-2  " : ""
+                }`
+              }
             >
               Add Books
-            </Button>
-            {/* <Input type="search" placeholder="Search" className="text-black" /> */}
+            </NavLink>
           </div>
         </SheetContent>
       </Sheet>
