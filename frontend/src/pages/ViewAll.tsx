@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import libraryApi from "@/module/libraryApi";
 import { Button } from "@/components/ui/button";
 import { Ellipsis, Grid3x3, Rows3, Table } from "lucide-react";
 import {
@@ -7,8 +6,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useNavigate } from "react-router-dom";
-
+import { handleGetAllBooks } from "../services/bookService";
+import { useNavigation } from "@/module/libraryNavigate";
 type ViewMode = "list" | "grid" | "combination";
 
 export default function ViewAll() {
@@ -17,11 +16,12 @@ export default function ViewAll() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     return (localStorage.getItem("viewMode") as ViewMode) || "list";
   });
-  const navigate = useNavigate();
+  const { navigateToEdit, navigateToDelete, navigateToDetails } =
+    useNavigation();
   useEffect(() => {
     async function fetchData() {
       try {
-        const books = await libraryApi.getBooks();
+        const books = await handleGetAllBooks();
         setData(books);
       } catch (error) {
         console.error("Error fetching books:", error);
@@ -43,25 +43,9 @@ export default function ViewAll() {
     setViewMode(nextMode);
   };
 
-  const handleEdit = (bookId: String) => {
-    console.log("Edit clicked for book:", bookId);
-  };
-
-  const handleDelete = (
-    bookId: String,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    console.log("Delete clicked for book:", bookId);
-  };
-
   if (loading) {
     return <p>Loading...</p>;
   }
-  const handleDetails = (bookId: string) => {
-    return () => {
-      navigate(`/details/${bookId}`);
-    };
-  };
 
   const getIcon = () => {
     if (viewMode === "list") return <Rows3 />;
@@ -89,7 +73,7 @@ export default function ViewAll() {
               className="text-left w-full bg-slate-100 hover:bg-slate-200 text-black"
               onClick={(event) => {
                 event.stopPropagation();
-                handleEdit(bookId);
+                navigateToEdit(bookId);
               }}
             >
               Edit
@@ -99,7 +83,7 @@ export default function ViewAll() {
               className="text-left w-full text-red-500 bg-slate-100 hover:bg-slate-200 border-2 border-black hover:border-red-600"
               onClick={(event) => {
                 event.stopPropagation();
-                handleDelete(bookId, event);
+                navigateToDelete(bookId);
               }}
             >
               Delete
@@ -115,7 +99,7 @@ export default function ViewAll() {
             <li
               key={index}
               className="relative px-4 py-8 bg-slate-200 rounded-xl hover:bg-slate-300  transition-all duration-300 ease-in-out group"
-              onClick={handleDetails(book._id)}
+              onClick={() => navigateToDetails(book._id)}
             >
               <h1>{book.title}</h1>
               <p className="text-lg text-slate-400">{book.author}</p>
@@ -131,7 +115,7 @@ export default function ViewAll() {
             <div
               key={index}
               className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out group"
-              onClick={handleDetails(book._id)}
+              onClick={() => navigateToDetails(book._id)}
             >
               <h1>{book.title}</h1>
               <p className="text-lg text-slate-400">{book.author}</p>
@@ -148,7 +132,7 @@ export default function ViewAll() {
               <div
                 key={index}
                 className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out group"
-                onClick={handleDetails(book._id)}
+                onClick={() => navigateToDetails(book._id)}
               >
                 <h1>{book.title}</h1>
                 <p className="text-lg text-slate-400">{book.author}</p>

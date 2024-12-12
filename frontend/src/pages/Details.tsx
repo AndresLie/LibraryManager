@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import libraryApi from "@/module/libraryApi";
 import { Button } from "@/components/ui/button";
 import { MoveLeft, Pencil } from "lucide-react";
-
+import { useNavigation } from "@/module/libraryNavigate";
 export default function Details() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const { navigateToEdit, navigateBack } = useNavigation();
   useEffect(() => {
     async function fetchBookDetails() {
       try {
-        const bookDetails = await libraryApi.getBookBy(id!);
+        const bookDetails = await libraryApi.getBookById(id!);
         setBook(bookDetails);
       } catch (error) {
         console.error("Error fetching book details:", error);
@@ -58,8 +58,8 @@ export default function Details() {
           <Button
             variant="default"
             className="text-left w-full bg-slate-200 hover:bg-slate-300 text-black"
-            onClick={(event) => {
-              navigate(-1);
+            onClick={() => {
+              navigateBack();
             }}
           >
             <MoveLeft /> Back
@@ -69,7 +69,7 @@ export default function Details() {
             className="text-left w-full bg-green-500 hover:bg-green-600 text-black"
             onClick={(event) => {
               event.stopPropagation();
-              // handleEdit(bookId);
+              navigateToEdit(book._id);
             }}
           >
             <Pencil />

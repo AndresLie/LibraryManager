@@ -1,3 +1,4 @@
+import { Book } from "@/types/book";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 class LibraryApi {
   private axiosInstance: AxiosInstance;
@@ -42,7 +43,7 @@ class LibraryApi {
         url: "/api/books",
         method: "GET",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
       return response;
@@ -52,7 +53,7 @@ class LibraryApi {
     }
   }
 
-  async getBookBy(id: String) {
+  async getBookById(id: String) {
     try {
       const response = await this.request<any>({
         url: `/api/book/${id}`,
@@ -67,6 +68,24 @@ class LibraryApi {
       throw err;
     }
   }
+
+  async updateBook(id: string, data: Book) {
+    try {
+      const response = await this.request<Book>({
+        url: `/api/book/${id}`,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error updating book with ID ${id}:`, error);
+      throw error;
+    }
+  }
 }
+
 const libraryApi = new LibraryApi();
 export default libraryApi;

@@ -5,7 +5,7 @@ const bookSchema = new mongoose.Schema({
   author: { type: String, required: true },
   isbn: { type: String, unique: true },
   publishedDate: { type: Date },
-  pageCount: { type: Number },
+  pageCount: { type: String },
 });
 
 module.exports = mongoose.model("Book", bookSchema);
