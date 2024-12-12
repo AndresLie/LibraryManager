@@ -133,7 +133,7 @@ button:focus-visible {
   }
 }
 
-button svg {
+.large-icon svg {
   width: 2rem !important;
   height: 2rem !important;
 }

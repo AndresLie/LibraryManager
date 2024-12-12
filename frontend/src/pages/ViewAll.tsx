@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useNavigate } from "react-router-dom";
 
 type ViewMode = "list" | "grid" | "combination";
 
@@ -16,7 +17,7 @@ export default function ViewAll() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     return (localStorage.getItem("viewMode") as ViewMode) || "list";
   });
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
       try {
@@ -42,17 +43,25 @@ export default function ViewAll() {
     setViewMode(nextMode);
   };
 
-  const handleEdit = (bookId: string) => {
+  const handleEdit = (bookId: String) => {
     console.log("Edit clicked for book:", bookId);
   };
 
-  const handleDelete = (bookId: string) => {
+  const handleDelete = (
+    bookId: String,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log("Delete clicked for book:", bookId);
   };
 
   if (loading) {
     return <p>Loading...</p>;
   }
+  const handleDetails = (bookId: string) => {
+    return () => {
+      navigate(`/details/${bookId}`);
+    };
+  };
 
   const getIcon = () => {
     if (viewMode === "list") return <Rows3 />;
@@ -67,7 +76,8 @@ export default function ViewAll() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute bottom-4 right-4 bg-slate-200 rounded-full p-2"
+            className="absolute bottom-4 right-4 bg-slate-200 rounded-full p-2 group-hover:bg-slate-300 transition-all duration-300 ease-in-out"
+            onClick={(event) => event.stopPropagation()}
           >
             <Ellipsis />
           </Button>
@@ -76,15 +86,21 @@ export default function ViewAll() {
           <div className="flex flex-col space-y-2">
             <Button
               variant="default"
-              className="text-left w-full bg-slate-900"
-              onClick={() => handleEdit(bookId)}
+              className="text-left w-full bg-slate-100 hover:bg-slate-200 text-black"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleEdit(bookId);
+              }}
             >
               Edit
             </Button>
             <Button
               variant="default"
-              className="text-left w-full text-red-500 bg-slate-900"
-              onClick={() => handleDelete(bookId)}
+              className="text-left w-full text-red-500 bg-slate-100 hover:bg-slate-200 border-2 border-black hover:border-red-600"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDelete(bookId, event);
+              }}
             >
               Delete
             </Button>
@@ -98,7 +114,8 @@ export default function ViewAll() {
           {data.map((book, index) => (
             <li
               key={index}
-              className="relative px-4 py-8 bg-slate-200 rounded-xl hover:bg-slate-300  transition-all duration-300 ease-in-out"
+              className="relative px-4 py-8 bg-slate-200 rounded-xl hover:bg-slate-300  transition-all duration-300 ease-in-out group"
+              onClick={handleDetails(book._id)}
             >
               <h1>{book.title}</h1>
               <p className="text-lg text-slate-400">{book.author}</p>
@@ -113,7 +130,8 @@ export default function ViewAll() {
           {data.map((book, index) => (
             <div
               key={index}
-              className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out"
+              className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out group"
+              onClick={handleDetails(book._id)}
             >
               <h1>{book.title}</h1>
               <p className="text-lg text-slate-400">{book.author}</p>
@@ -129,7 +147,8 @@ export default function ViewAll() {
             {data.map((book, index) => (
               <div
                 key={index}
-                className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out"
+                className="relative px-4 py-8 bg-slate-200 rounded-xl shadow-md  flex flex-col items-center justify-center text-center hover:bg-slate-300  transition-all duration-300 ease-in-out group"
+                onClick={handleDetails(book._id)}
               >
                 <h1>{book.title}</h1>
                 <p className="text-lg text-slate-400">{book.author}</p>
@@ -144,13 +163,13 @@ export default function ViewAll() {
 
   return (
     <>
-      <div className="mt-10 py-10 flex-col justify-center align-middle ">
+      <div className="py-10 flex-col justify-center align-middle ">
         {renderBooks()}
       </div>
       <Button
         variant="outline"
         size="icon"
-        className="fixed bottom-12 right-12 bg-blue-500 text-white shadow-lg hover:bg-blue-600 rounded-full p-8"
+        className="fixed bottom-12 right-12 bg-blue-500 text-white shadow-lg hover:bg-blue-600 rounded-full p-8 large-icon"
         onClick={handleViewModeToggle}
       >
         {getIcon()}
