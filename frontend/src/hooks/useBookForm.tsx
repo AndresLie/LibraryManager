@@ -11,6 +11,7 @@ const formSchema = z.object({
   isbn: z.string().min(2, { message: "ISBN must be at least 2 characters." }),
   publishedDate: z.union([z.string(), z.date()]),
   pageCount: z.string(),
+  genre: z.string(),
 });
 
 export function useBookForm(book?: Book) {
@@ -29,6 +30,7 @@ export function useBookForm(book?: Book) {
           isbn: "",
           publishedDate: undefined,
           pageCount: "0",
+          genre: "unknown",
         },
   });
 }

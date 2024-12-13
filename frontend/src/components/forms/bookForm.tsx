@@ -93,6 +93,17 @@ export default function BookForm({
           </p>
         )}
       </div>
+      <div className="space-y-2">
+        <Label className="flex justify-start" htmlFor="genre">
+          Genre
+        </Label>
+        <Input id="genre" {...register("genre")} />
+        {errors.genre && (
+          <p className="text-red-500 text-sm flex justify-start">
+            {errors.genre.message}
+          </p>
+        )}
+      </div>
       <div className="flex justify-end space-x-8">
         <Button
           type="button"

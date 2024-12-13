@@ -6,6 +6,7 @@ const bookSchema = new mongoose.Schema({
   isbn: { type: String, unique: true },
   publishedDate: { type: Date },
   pageCount: { type: String },
+  genre: { type: String, default: "unknown" },
 });
 
 module.exports = mongoose.model("Book", bookSchema);

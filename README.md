@@ -74,3 +74,25 @@ cd LibraryManager
    ```
 
 Your Frontend should be running at localhost:5173
+
+### How to run Migration
+
+1. from backend Go to books-migrations folder
+   ```bash
+   cd books-migrations
+   ```
+2. in `migrate-mongo-config.js` manually change the url to your database collection
+   example:
+   `url: "mongodb://localhost:27017/library"`
+3. create a new migration with
+   ```
+   migrate-mongo create YOUR_MIGRATION_NAME
+   ```
+4. A new migration file is created in the 'migrations' directory
+5. Modify the new migration file
+   Documentation of modifying migration file
+   - https://www.npmjs.com/package/migrate-mongo
+6. Run
+   ```
+   migrate-mongo up
+   ```

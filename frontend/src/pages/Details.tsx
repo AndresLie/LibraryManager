@@ -53,6 +53,7 @@ export default function Details() {
             Published: {new Date(book.publishedDate).toLocaleDateString()}
           </p>
           <p className="text-slate-400">Pages: {book.pageCount}</p>
+          <p className="text-slate-400">Genre: {book.genre}</p>
         </div>
         <div className="flex space-x-10">
           <Button
