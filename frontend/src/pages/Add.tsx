@@ -9,7 +9,7 @@ export default function Add() {
   const form = useBookForm();
   const { reset, handleSubmit } = form;
 
-  const handleUpdateFormSubmit = async (data: Book) => {
+  const handleAddBookFormSubmit = async (data: Book) => {
     try {
       await handleAddBook(data);
       toast({
@@ -32,7 +32,7 @@ export default function Add() {
   return (
     <div className="max-w-2xl mx-auto p-8 bg-slate-100 rounded-lg shadow-md space-y-4">
       <h1 className="text-2xl font-bold mb-4">Add Book</h1>
-      <BookForm {...form} onSubmit={handleSubmit(handleUpdateFormSubmit)} />
+      <BookForm {...form} onSubmit={handleSubmit(handleAddBookFormSubmit)} />
     </div>
   );
 }

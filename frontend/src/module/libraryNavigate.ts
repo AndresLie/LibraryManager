@@ -15,7 +15,7 @@ export const useNavigation = () => {
     navigate("/");
   };
   const navigateToDelete = (bookId: string) => {
-    navigate(`/details/${bookId}`);
+    navigate(`/delete/${bookId}`);
   };
   const navigateBack = () => {
     navigate(-1);

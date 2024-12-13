@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import libraryApi from "@/module/libraryApi";
 import { Button } from "@/components/ui/button";
-import { MoveLeft, Pencil } from "lucide-react";
+import { MoveLeft, Pencil, Trash2 } from "lucide-react";
 import { useNavigation } from "@/module/libraryNavigate";
+import { handleGetBook } from "@/services/bookService";
 export default function Details() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const { navigateToEdit, navigateBack } = useNavigation();
+  const { navigateToEdit, navigateBack, navigateToDelete } = useNavigation();
   useEffect(() => {
     async function fetchBookDetails() {
       try {
-        const bookDetails = await libraryApi.getBookById(id!);
+        const bookDetails = await handleGetBook(id!);
         setBook(bookDetails);
       } catch (error) {
         console.error("Error fetching book details:", error);
@@ -63,6 +63,17 @@ export default function Details() {
             }}
           >
             <MoveLeft /> Back
+          </Button>
+          <Button
+            variant="destructive"
+            className="text-left w-full hover:bg-red-700 text-black"
+            onClick={(event) => {
+              event.stopPropagation();
+              navigateToDelete(book._id);
+            }}
+          >
+            <Trash2 />
+            Delete
           </Button>
           <Button
             variant="default"

@@ -5,7 +5,9 @@ import { NavLink } from "react-router-dom";
 export function Navbar() {
   return (
     <nav className="flex items-center justify-between px-8 py-8 bg-gray-900 text-white sticky top-0 z-50 w-full">
-      <div className="text-2xl font-bold">Library Manager</div>
+      <a href="/" className="text-white">
+        <div className="text-2xl font-bold">Library Manager</div>
+      </a>
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex space-x-4 overflow-hidden">

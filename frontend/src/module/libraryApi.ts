@@ -48,7 +48,7 @@ class LibraryApi {
       });
       return response;
     } catch (err) {
-      console.error("Error uploading file:", err);
+      console.error("Error Fetching all books", err);
       throw err;
     }
   }
@@ -63,9 +63,9 @@ class LibraryApi {
         },
       });
       return response;
-    } catch (err) {
-      console.error(err);
-      throw err;
+    } catch (error) {
+      console.error(`Error Fetching  book with ID ${id}:`, error);
+      throw error;
     }
   }
 
@@ -99,6 +99,22 @@ class LibraryApi {
       return response;
     } catch (error) {
       console.error(`Error updating book with ID ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteBook(id: string) {
+    try {
+      const response = await this.request<Book>({
+        url: `/api/book/${id}`,
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error Deleting book with ID ${id}:`, error);
       throw error;
     }
   }

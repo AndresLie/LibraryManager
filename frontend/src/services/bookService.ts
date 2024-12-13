@@ -10,6 +10,15 @@ const handleGetAllBooks = async (): Promise<any[]> => {
     throw new Error("Failed to fetch all books");
   }
 };
+const handleGetBook = async (id: string): Promise<Book> => {
+  try {
+    const response = await libraryApi.getBookById(id);
+    return response;
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    throw new Error("Failed to fetch book");
+  }
+};
 
 const handleAddBook = async (data: Book) => {
   try {
@@ -17,20 +26,32 @@ const handleAddBook = async (data: Book) => {
     return response;
   } catch (error) {
     console.error("Error fetching all books:", error);
-    throw new Error("Failed to fetch all books");
+    throw new Error("Failed to Add Book");
   }
 };
 
-const handleDeleteBook = (bookId: String) => {
-  console.log("Delete clicked for book:", bookId);
+const handleDeleteBook = async (bookId: string) => {
+  try {
+    const response = await libraryApi.deleteBook(bookId);
+    return response;
+  } catch (error) {
+    console.error("Error Deleting all books:", error);
+    throw new Error("Failed to Delete Book");
+  }
 };
 
 const handleEditBook = async (id: string, data: Book): Promise<void> => {
   try {
     await libraryApi.updateBook(id, data);
   } catch (error) {
-    throw new Error("Failed to update book");
+    throw new Error("Failed to Update book");
   }
 };
 
-export { handleDeleteBook, handleGetAllBooks, handleEditBook, handleAddBook };
+export {
+  handleDeleteBook,
+  handleGetAllBooks,
+  handleEditBook,
+  handleAddBook,
+  handleGetBook,
+};

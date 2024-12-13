@@ -11,6 +11,7 @@ type BookFormProps = {
   handleSubmit: any;
   formState: { errors: any };
   reset: any;
+  isDelete?: boolean;
 };
 
 export default function BookForm({
@@ -19,6 +20,7 @@ export default function BookForm({
   register,
   handleSubmit,
   formState: { errors },
+  isDelete = false,
 }: BookFormProps) {
   const { navigateBack } = useNavigation();
   return (
@@ -102,7 +104,9 @@ export default function BookForm({
         >
           Cancel
         </Button>
-        <Button type="submit">{book ? "Save Changes" : "Add Book"}</Button>
+        <Button type="submit">
+          {book ? (isDelete ? "Delete Book" : "Save Changes") : "Add Book"}
+        </Button>
       </div>
     </form>
   );
