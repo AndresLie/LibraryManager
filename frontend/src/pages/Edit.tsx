@@ -6,8 +6,9 @@ import { Book } from "@/types/book";
 import isEqual from "lodash/isEqual";
 import { omit } from "lodash";
 import { useToast } from "@/hooks/use-toast";
-import { handleUpdateBook } from "@/services/bookService";
+import { handleEditBook } from "@/services/bookService";
 import { useNavigation } from "@/module/libraryNavigate";
+import { useBookForm } from "@/hooks/useBookForm";
 
 export default function Edit() {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,8 @@ export default function Edit() {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { navigateBack } = useNavigation();
+  const form = useBookForm();
+  const { handleSubmit } = form;
   useEffect(() => {
     async function fetchBook() {
       try {
@@ -32,7 +35,7 @@ export default function Edit() {
     fetchBook();
   }, [id]);
 
-  const handleUpdateFormSubmit = async (data: Book) => {
+  const handleEditFormSubmit = async (data: Book) => {
     data.publishedDate = new Date(data.publishedDate).toISOString();
 
     if (isEqual(data, omit(book, ["_id", "__v"]))) {
@@ -41,19 +44,21 @@ export default function Edit() {
         title: "No Changes Detected",
         duration: 2000,
       });
-      return;
+      return false;
     }
     try {
-      await handleUpdateBook(id!, data);
+      await handleEditBook(id!, data);
       toast({
         className: "bg-green-600 ",
         variant: "destructive",
         title: "Changes Succeed",
         duration: 2000,
       });
+      return true;
       navigateBack();
     } catch (error) {
       console.error("Error updating book:", error);
+      return false;
     }
   };
 
@@ -68,7 +73,7 @@ export default function Edit() {
   return (
     <div className="max-w-2xl mx-auto p-8 bg-slate-100 rounded-lg shadow-md space-y-4">
       <h1 className="text-2xl font-bold mb-4">Edit Book</h1>
-      <BookForm book={book} onSubmit={handleUpdateFormSubmit} />
+      <BookForm {...form} onSubmit={handleSubmit(handleEditFormSubmit)} />
     </div>
   );
 }

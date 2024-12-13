@@ -1,25 +1,33 @@
-import { useBookForm } from "@/hooks/useBookForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Book } from "@/types/book";
-import { useNavigate } from "react-router-dom";
+import { useNavigation } from "@/module/libraryNavigate";
+
+type BookFormProps = {
+  book?: Book;
+  onSubmit: (data: any) => void;
+  register: any;
+  handleSubmit: any;
+  formState: { errors: any };
+  reset: any;
+};
 
 export default function BookForm({
   book,
   onSubmit,
-}: {
-  book?: Book;
-  onSubmit: (data: any) => void;
-}) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useBookForm(book);
-  const navigate = useNavigate();
+  register,
+  handleSubmit,
+  formState: { errors },
+}: BookFormProps) {
+  const { navigateBack } = useNavigation();
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={(event) => {
+        handleSubmit(onSubmit)(event);
+      }}
+      className="space-y-4"
+    >
       <div className="space-y-2">
         <Label className="flex justify-start" htmlFor="title">
           Title
@@ -89,7 +97,7 @@ export default function BookForm({
           variant="default"
           className="text-left bg-slate-300 hover:bg-slate-500 text-black"
           onClick={() => {
-            navigate(-1);
+            navigateBack();
           }}
         >
           Cancel

@@ -64,7 +64,24 @@ class LibraryApi {
       });
       return response;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async addBook(book: Book) {
+    try {
+      const response = await this.request<any>({
+        url: `/api/book/`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: book,
+      });
+      return response;
+    } catch (err) {
+      console.error(err);
       throw err;
     }
   }
