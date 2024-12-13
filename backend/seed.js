@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Book = require("./models/Book");
 
-const MONGO_URI = "mongodb://localhost:27017/library";
+const MONGO_URI = process.env.MONGO_URI;
 
 const seedBooks = [
   {
