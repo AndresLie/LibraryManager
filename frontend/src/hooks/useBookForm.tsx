@@ -28,7 +28,7 @@ export function useBookForm(book?: Book) {
           title: "",
           author: "",
           isbn: "",
-          publishedDate: undefined,
+          publishedDate: "",
           pageCount: "0",
           genre: "unknown",
         },
