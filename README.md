@@ -42,7 +42,12 @@ cd LibraryManager
 
 4. In .env put the PORT number you wish the backend run on  
    `PORT=PORT_NUMBER`
-5. Start the backend server
+
+5. (Optional) seed the database
+   ```
+   node seed.js
+   ```
+6. Start the backend server
 
    ```
    nodemon index.js
