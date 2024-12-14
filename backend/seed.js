@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Book = require("./models/Book");
-
+require("dotenv").config();
 const MONGO_URI = process.env.MONGO_URI;
 
 const seedBooks = [

@@ -21,33 +21,36 @@ cd LibraryManager
 
 #### 2. Backend & Database Setup
 
-1. Create a .env file from the provided template
+1. Navigate to abckend folder
+   ```bash
+      cd backend
+   ```
+2. Create a .env file from the provided template
 
    ```bash
    cp template.env .env
    ```
 
-2. Configure your MongoDB connection:
+3. Configure your MongoDB connection:
 
    - Run your MongoDB server locally or use a cloud service like MongoDB Atlas.
    - Add your connection string to the .env file:
      `MONGO_URI=mongodb://localhost:your_database_port/your_database_name`
 
-3. Navigate to the backend directory and install dependencies
+4. Install dependencies
 
    ```
-   cd backend
    npm i
    ```
 
-4. In .env put the PORT number you wish the backend run on  
+5. In .env put the PORT number you wish the backend run on  
    `PORT=PORT_NUMBER`
 
-5. (Optional) seed the database
+6. (Optional) seed the database
    ```
    node seed.js
    ```
-6. Start the backend server
+7. Start the backend server
 
    ```
    nodemon index.js
